@@ -23,7 +23,7 @@ function guardarEvaluado(evaluado) {
 
 // Preguntas y respuestas correctas
 const preguntas = [
-  // ... (todas las preguntas y opciones que enviaste, igual que en index.html)
+  // ... (agrega aquí todas las preguntas y opciones que enviaste antes)
 ];
 
 const correctas = {
@@ -229,7 +229,7 @@ document.getElementById('quizForm').addEventListener('submit', function(e) {
     respuestas
   });
   localStorage.setItem('evaluados', JSON.stringify(evaluados));
-  // Mostrar resultado inmediato
+  // Mostrar resultado inmediato con mensaje de agradecimiento
   const modal = document.getElementById('resultModal');
   document.getElementById('modalText').innerHTML =
     `<b>${nombre} ${apellido}</b>, obtuviste <b>${score}</b> de <b>${total}</b> (${percent}%).<br>
