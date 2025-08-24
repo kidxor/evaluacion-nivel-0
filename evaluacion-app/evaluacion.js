@@ -1,6 +1,6 @@
 // Este archivo contiene la lista de preguntas y respuestas correctas para la evaluación
 
-export const preguntas = [
+window.preguntas = [
   // Ejemplo de pregunta tipo checkbox
   {
     id: "q1",
@@ -213,7 +213,7 @@ export const preguntas = [
   }
 ];
 
-export const correctas = {
+window.correctas = {
   q1: ['a', 'b', 'd', 'e'],
   q2: 'b',
   q3: 'a',
@@ -235,3 +235,4 @@ export const correctas = {
   q19: 'b',
   q20: null // Reflexión, no se evalúa
 };
+

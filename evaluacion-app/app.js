@@ -52,7 +52,7 @@ const correctas = {
 // Renderizar preguntas
 function renderPreguntas() {
   const container = document.getElementById('questionsContainer');
-  container.innerHTML = preguntas.map(p => {
+  container.innerHTML = window.preguntas.map(p => {
     if (p.tipo === "checkbox") {
       return `
         <div class="question">
@@ -188,13 +188,40 @@ document.getElementById('userForm').addEventListener('submit', function(e) {
   renderPreguntas();
 });
 
+// Debes tener la función renderPreguntas definida en app.js
+function renderPreguntas() {
+  const container = document.getElementById('questionsContainer');
+  container.innerHTML = window.preguntas.map(p => {
+    if (p.tipo === "checkbox") {
+      return `
+        <div class="question">
+          <p><b>${p.texto}</b></p>
+          ${p.opciones.map(o =>
+            `<label><input type="checkbox" name="${p.id}" value="${o.value}"> ${o.label}</label>`
+          ).join('')}
+        </div>
+      `;
+    } else if (p.tipo === "radio") {
+      return `
+        <div class="question">
+          <p><b>${p.texto}</b></p>
+          ${p.opciones.map(o =>
+            `<label><input type="radio" name="${p.id}" value="${o.value}" required> ${o.label}</label>`
+          ).join('')}
+        </div>
+      `;
+    }
+    return '';
+  }).join('');
+}
+
 // Evaluar respuestas y mostrar resultado
 document.getElementById('quizForm').addEventListener('submit', function(e) {
   e.preventDefault();
   const nombre = document.getElementById('firstName').value;
   const apellido = document.getElementById('lastName').value;
   const respuestas = {};
-  preguntas.forEach(p => {
+  window.preguntas.forEach(p => {
     if (p.tipo === "checkbox") {
       respuestas[p.id] = Array.from(document.querySelectorAll(`input[name="${p.id}"]:checked`)).map(i => i.value);
     } else if (p.tipo === "radio") {
@@ -202,21 +229,19 @@ document.getElementById('quizForm').addEventListener('submit', function(e) {
       respuestas[p.id] = val ? val.value : '';
     }
   });
-  // Calcular puntaje
   let score = 0;
-  let total = 19; // Solo 19 preguntas se evalúan
-  Object.keys(correctas).forEach(q => {
-    if (correctas[q] === null) return;
-    if (Array.isArray(correctas[q])) {
+  let total = 19;
+  Object.keys(window.correctas).forEach(q => {
+    if (window.correctas[q] === null) return;
+    if (Array.isArray(window.correctas[q])) {
       if (Array.isArray(respuestas[q]) &&
-          respuestas[q].sort().join(',') === correctas[q].sort().join(',')) score++;
+          respuestas[q].sort().join(',') === window.correctas[q].sort().join(',')) score++;
     } else {
-      if (respuestas[q] === correctas[q]) score++;
+      if (respuestas[q] === window.correctas[q]) score++;
     }
   });
   const percent = Math.round((score / total) * 100);
   const passed = percent >= 70;
-  // Guardar en localStorage
   const evaluados = JSON.parse(localStorage.getItem('evaluados') || '[]');
   evaluados.push({
     nombre,
@@ -229,7 +254,6 @@ document.getElementById('quizForm').addEventListener('submit', function(e) {
     respuestas
   });
   localStorage.setItem('evaluados', JSON.stringify(evaluados));
-  // Mostrar resultado inmediato con mensaje de agradecimiento
   const modal = document.getElementById('resultModal');
   document.getElementById('modalText').innerHTML =
     `<b>${nombre} ${apellido}</b>, obtuviste <b>${score}</b> de <b>${total}</b> (${percent}%).<br>
