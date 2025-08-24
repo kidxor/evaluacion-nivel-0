@@ -6,38 +6,32 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // Botón para limpiar la lista
-  const limpiarBtn = document.createElement('button');
-  limpiarBtn.textContent = 'Limpiar lista de evaluados';
-  limpiarBtn.style = 'display:block;margin:1.5em auto 2em auto;padding:0.7em 2em;background:#dc2626;color:#fff;border:none;border-radius:0.5em;font-weight:bold;cursor:pointer;';
-  limpiarBtn.onclick = () => {
-    const clave = prompt('Ingrese la contraseña para limpiar la lista:');
-    if (clave === '8812') {
-      localStorage.removeItem('evaluados');
-      location.reload();
-    } else {
-      alert('Contraseña incorrecta');
-    }
-  };
-  document.body.insertBefore(limpiarBtn, document.body.querySelector('#evaluadosList'));
-
   const evaluados = JSON.parse(localStorage.getItem('evaluados') || '[]');
   const container = document.getElementById('evaluadosList');
   if (evaluados.length === 0) {
     container.innerHTML = '<p>No hay evaluados aún.</p>';
   } else {
     container.innerHTML = evaluados.map(ev => `
-      <div class="evaluado-item" style="margin-bottom:1.5em;">
+      <div class="evaluado-card" style="
+        background:#fff;
+        border-radius:1em;
+        box-shadow:0 2px 12px rgba(59,130,246,0.08);
+        margin-bottom:2em;
+        padding:1.2em 1.5em;
+        max-width:500px;
+        margin-left:auto;
+        margin-right:auto;
+      ">
         <details>
-          <summary style="font-size:1.1em; font-weight:bold; cursor:pointer;">
+          <summary style="font-size:1.15em; font-weight:700; color:#2563eb; cursor:pointer;">
             ${ev.nombre} ${ev.apellido}
           </summary>
-          <div style="margin-top:0.7em;">
+          <div style="margin-top:1em;">
             <span style="color:${ev.passed ? '#16a34a' : '#dc2626'}; font-weight:bold;">
               ${ev.passed ? 'Aprobado ✅' : 'No aprobado ❌'}
             </span>
-            <br>Puntaje: ${ev.score} / ${ev.total} (${ev.percent}%)
-            <ul style="margin-top:0.7em;">
+            <br>Puntaje: <b>${ev.score}</b> / <b>${ev.total}</b> (${ev.percent}%)
+            <ul style="margin-top:1em; padding-left:1em;">
               ${Object.entries(ev.respuestas).map(([q, r]) =>
                 `<li><b>${q}:</b> ${r ? r : '<i>Sin respuesta</i>'}</li>`
               ).join('')}
