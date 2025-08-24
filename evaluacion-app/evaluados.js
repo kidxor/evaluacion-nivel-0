@@ -6,6 +6,21 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
+  // Botón para limpiar la lista
+  const limpiarBtn = document.createElement('button');
+  limpiarBtn.textContent = 'Limpiar lista de evaluados';
+  limpiarBtn.style = 'display:block;margin:1.5em auto 2em auto;padding:0.7em 2em;background:#dc2626;color:#fff;border:none;border-radius:0.5em;font-weight:bold;cursor:pointer;';
+  limpiarBtn.onclick = () => {
+    const clave = prompt('Ingrese la contraseña para limpiar la lista:');
+    if (clave === '8812') {
+      localStorage.removeItem('evaluados');
+      location.reload();
+    } else {
+      alert('Contraseña incorrecta');
+    }
+  };
+  document.body.insertBefore(limpiarBtn, document.body.querySelector('#evaluadosList'));
+
   const evaluados = JSON.parse(localStorage.getItem('evaluados') || '[]');
   const container = document.getElementById('evaluadosList');
   if (evaluados.length === 0) {
@@ -27,6 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 `<li><b>${q}:</b> ${r ? r : '<i>Sin respuesta</i>'}</li>`
               ).join('')}
             </ul>
+            <div style="margin-top:1em; font-size:1.05em; color:#2563eb;">
+              🎉 <b>¡Gracias por completar el cuestionario!</b><br>
+              Tu camino como conductor profesional está comenzando, y en Autonomy queremos acompañarte en cada paso.<br>
+              Recordá que ser profesional no es tener experiencia: es tener actitud, compromiso y ganas de mejorar todos los días.
+            </div>
           </div>
         </details>
       </div>
