@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Aplicación de Evaluación</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Evaluación de Conocimientos</h1>
+  </header>
+  
+  <main>
+    <form id="quizForm">
+      <label>
+        Nombre:
+        <input type="text" id="firstName" required autocomplete="given-name">
+      </label>
+      <label>
+        Apellido:
+        <input type="text" id="lastName" required autocomplete="family-name">
+      </label>
+      <!-- Aquí se agregarán dinámicamente las preguntas -->
+      <button type="submit">Enviar</button>
+    </form>
+
+    <div id="resultModal" class="modal">
+      <div class="modal-content">
+        <span id="modalText"></span>
+        <button class="close-btn" onclick="closeModal()">Cerrar</button>
+      </div>
+    </div>
+
+    <div id="evaluadosList"></div>
+    <a href="evaluados.html" style="display:block;margin:2rem auto;text-align:center;font-weight:bold;color:#2563eb;">Ver lista de evaluados</a>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
