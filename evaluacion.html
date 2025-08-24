@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Evaluación rápida</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --primary: #007bff;
+      --background: #f8f9fa;
+      --card-bg: #fff;
+      --border-radius: 12px;
+      --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--background);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      margin-top: 2rem;
+      color: var(--primary);
+      font-size: 2rem;
+      text-align: center;
+    }
+    form {
+      background: var(--card-bg);
+      box-shadow: var(--shadow);
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      margin: 2rem 0;
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    label {
+      font-size: 1rem;
+      color: #333;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      margin-top: 0.3rem;
+      box-sizing: border-box;
+    }
+    .question {
+      background: #f1f3f6;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 0;
+    }
+    .question p {
+      margin: 0 0 0.7rem 0;
+      font-weight: 500;
+      color: #222;
+    }
+    .question label {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      font-size: 0.98rem;
+      cursor: pointer;
+    }
+    input[type="radio"] {
+      margin-right: 0.7em;
+      accent-color: var(--primary);
+    }
+    button[type="submit"] {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.9rem 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 1rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    button[type="submit"]:hover {
+      background: #0056b3;
+    }
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.35);
+      justify-content: center; align-items: center;
+      transition: background 0.2s;
+    }
+    .modal-content {
+      background: var(--card-bg);
+      padding: 2rem 1.5rem;
+      border-radius: var(--border-radius);
+      text-align: center;
+      min-width: 260px;
+      max-width: 90vw;
+      box-shadow: var(--shadow);
+      animation: modalIn 0.3s;
+    }
+    @keyframes modalIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .close-btn {
+      margin-top: 1.2rem;
+      padding: 0.7rem 2rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .close-btn:hover {
+      background: #0056b3;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      form {
+        padding: 1rem;
+        max-width: 98vw;
+      }
+      .modal-content {
+        padding: 1.2rem 0.7rem;
+      }
+      h1 {
+        font-size: 1.3rem;
+        margin-top: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="resultModal" class="modal">
+    <div class="modal-content">
+      <span id="modalText"></span>
+      <br>
+      <button class="close-btn" onclick="closeModal()">Cerrar</button>
+    </div>
+  </div>
+
+<!-- ...estilos y modal existentes... -->
+
+<h1>Evaluación de Conocimientos</h1>
+
+<form id="quizForm">
+  <label>
+    Nombre:
+    <input type="text" id="firstName" required autocomplete="given-name">
+  </label>
+  <label>
+    Apellido:
+    <input type="text" id="lastName" required autocomplete="family-name">
+  </label>
+
+  <!-- 1 -->
+  <div class="question">
+    <p>1) ¿Qué necesito para poder comenzar a trabajar como conductor en Autonomy? <br><span style="font-size:0.95em;color:#555;">(Podés elegir más de una)</span></p>
+    <label><input type="checkbox" name="q1" value="a"> Tener ganas de aprender</label>
+    <label><input type="checkbox" name="q1" value="b"> Licencia de conducir vigente</label>
+    <label><input type="checkbox" name="q1" value="c"> Auto propio</label>
+    <label><input type="checkbox" name="q1" value="d"> Certificado de antecedentes penales</label>
+    <label><input type="checkbox" name="q1" value="e"> Comprobante de domicilio</label>
+    <label><input type="checkbox" name="q1" value="f"> Pasaporte vigente</label>
+  </div>
+
+  <!-- 2 -->
+  <div class="question">
+    <p>2) ¿Por qué es importante asistir y aprobar esta capacitación?</p>
+    <label><input type="radio" name="q2" value="a" required> Para recibir un diploma</label>
+    <label><input type="radio" name="q2" value="b"> Para acceder a un vehículo Autonomy y poder comenzar a generar ingresos</label>
+    <label><input type="radio" name="q2" value="c"> Porque es obligatorio para cualquier trabajo</label>
+    <label><input type="radio" name="q2" value="d"> Para conocer a otros conductores</label>
+  </div>
+
+  <!-- 3 -->
+  <div class="question">
+    <p>3) ¿Qué significa ser conductor de aplicaciones?</p>
+    <label><input type="radio" name="q3" value="a" required> Ser jefe de uno mismo y administrar tu propio negocio</label>
+    <label><input type="radio" name="q3" value="b"> Ser empleado de la app</label>
+    <label><input type="radio" name="q3" value="c"> Manejar cuando te obligan</label>
+  </div>
+
+  <!-- 4 -->
+  <div class="question">
+    <p>4) ¿Cuáles son algunos de los costos que debo tener en cuenta para administrar con eficiencia mi negocio y alcanzar mis objetivos de ganancias?</p>
+    <label><input type="checkbox" name="q4" value="a"> Las comisiones de las aplicaciones</label>
+    <label><input type="checkbox" name="q4" value="b"> Peajes, combustible, lavado, alquiler del vehículo</label>
+    <label><input type="checkbox" name="q4" value="c"> Almuerzos y meriendas</label>
+    <label><input type="checkbox" name="q4" value="d"> Gastos en ropa nueva</label>
+  </div>
+
+  <!-- 5 -->
+  <div class="question">
+    <p>5) ¿Qué es lo primero que debo hacer antes de comenzar mi jornada de trabajo? <br><span style="font-size:0.95em;color:#555;">(Podés elegir más de una)</span></p>
+    <label><input type="checkbox" name="q5" value="a"> Asegurarme de tener el tanque lleno y el auto limpio y en condiciones</label>
+    <label><input type="checkbox" name="q5" value="b"> Subir una foto en redes sociales</label>
+    <label><input type="checkbox" name="q5" value="c"> Pedirle a alguien que maneje por mí</label>
+    <label><input type="checkbox" name="q5" value="d"> Verificar en el celular: batería, conexión, datos y llevar cable de carga</label>
+  </div>
+
+  <!-- 6 -->
+  <div class="question">
+    <p>6) ¿Qué significa conducir de forma segura y responsable?</p>
+    <label><input type="radio" name="q6" value="a" required> Usar el celular mientras manejo para aceptar más viajes</label>
+    <label><input type="radio" name="q6" value="b"> Respetar las normas de tránsito y cuidar a los pasajeros</label>
+    <label><input type="radio" name="q6" value="c"> Llegar lo más rápido posible, sin importar las señales</label>
+  </div>
+
+  <!-- 7 -->
+  <div class="question">
+    <p>7) ¿Por qué es importante mantener limpio y en buen estado el vehículo?</p>
+    <label><input type="radio" name="q7" value="a" required> Porque da una buena impresión y ayuda a recibir mejores calificaciones</label>
+    <label><input type="radio" name="q7" value="b"> Porque los autos limpios andan más rápido</label>
+    <label><input type="radio" name="q7" value="c"> Porque si no, no me van a dejar trabajar nunca más</label>
+  </div>
+
+  <!-- 8 -->
+  <div class="question">
+    <p>8) ¿Qué debo hacer si tengo un accidente de tránsito?</p>
+    <label><input type="radio" name="q8" value="a" required> Irme lo más rápido posible</label>
+    <label><input type="radio" name="q8" value="b"> Verificar que todos estén bien y seguir los pasos legales correspondientes</label>
+    <label><input type="radio" name="q8" value="c"> Llamar al pasajero para pedirle que lo reporte él</label>
+  </div>
+
+  <!-- 9 -->
+  <div class="question">
+    <p>9) ¿Qué aplicaciones debería conocer y aprender a usar como conductor de movilidad?</p>
+    <label><input type="radio" name="q9" value="a" required> MercadoLibre, YouTube y WhatsApp</label>
+    <label><input type="radio" name="q9" value="b"> Uber, Cabify, DiDi</label>
+    <label><input type="radio" name="q9" value="c"> Word, Excel y Google Docs</label>
+  </div>
+
+  <!-- 10 -->
+  <div class="question">
+    <p>10) ¿Qué significa "MultiApping Inteligente"?</p>
+    <label><input type="radio" name="q10" value="a" required> Trabajar solo con una app para no confundirme</label>
+    <label><input type="radio" name="q10" value="b"> Usar varias aplicaciones, eligiendo la mejor opción según cada momento</label>
+    <label><input type="radio" name="q10" value="c"> Aceptar muchos viajes al mismo tiempo</label>
+  </div>
+
+  <!-- 11 -->
+  <div class="question">
+    <p>11) ¿Qué cosas me ayudan a ganar más dinero con mi trabajo? <br><span style="font-size:0.95em;color:#555;">(Podés elegir más de una)</span></p>
+    <label><input type="checkbox" name="q11" value="a"> Administrar mis horarios y descansos</label>
+    <label><input type="checkbox" name="q11" value="b"> Conocer los momentos de alta demanda (eventos, clima, feriados)</label>
+    <label><input type="checkbox" name="q11" value="c"> Trabajar 24 horas seguidas sin parar</label>
+    <label><input type="checkbox" name="q11" value="d"> Organizar mis finanzas y gastos</label>
+  </div>
+
+  <!-- 12 -->
+  <div class="question">
+    <p>12) ¿Qué espera un pasajero de un conductor profesional?</p>
+    <label><input type="radio" name="q12" value="a" required> Amabilidad, respeto y un viaje seguro</label>
+    <label><input type="radio" name="q12" value="b"> Que le presten el auto</label>
+    <label><input type="radio" name="q12" value="c"> Que llegue rápido sin importar cómo</label>
+  </div>
+
+  <!-- 13 -->
+  <div class="question">
+    <p>13) ¿Qué puedo ganar si doy un buen servicio?</p>
+    <label><input type="radio" name="q13" value="a" required> Propinas, buenas calificaciones, más y mejores viajes asignados</label>
+    <label><input type="radio" name="q13" value="b"> Menos horas de trabajo</label>
+    <label><input type="radio" name="q13" value="c"> Nada, da lo mismo hacerlo bien o mal</label>
+  </div>
+
+  <!-- 14 -->
+  <div class="question">
+    <p>14) Si un pasajero se enoja o tiene una queja, ¿qué debo hacer?</p>
+    <label><input type="radio" name="q14" value="a" required> Decirle a los gritos que está equivocado</label>
+    <label><input type="radio" name="q14" value="b"> Escuchar con calma, mantener la cortesía y buscar resolver el problema</label>
+    <label><input type="radio" name="q14" value="c"> Cancelar el viaje y dejarlo donde esté</label>
+  </div>
+
+  <!-- 15 -->
+  <div class="question">
+    <p>15) ¿Qué tiempo me llevará consolidar mi negocio y alcanzar mis objetivos?</p>
+    <label><input type="radio" name="q15" value="a" required> Lo voy a lograr la primer semana porque soy genial</label>
+    <label><input type="radio" name="q15" value="b"> El avance será progresivo y lo importante es la constancia</label>
+    <label><input type="radio" name="q15" value="c"> Mis objetivos son inalcanzables y tardaré muchos años</label>
+  </div>
+
+  <!-- 16 -->
+  <div class="question">
+    <p>16) ¿Cuántas veces al día puedo hacer una pausa en mi trabajo? <br><span style="font-size:0.95em;color:#555;">(Podés elegir más de una)</span></p>
+    <label><input type="checkbox" name="q16" value="a"> Al cargar combustible y cuando necesito ir al baño o comer algo</label>
+    <label><input type="checkbox" name="q16" value="b"> Las veces que yo disponga porque soy mi propio jefe</label>
+    <label><input type="checkbox" name="q16" value="c"> Debo trabajar 12 horas seguidas sin parar</label>
+    <label><input type="checkbox" name="q16" value="d"> Tengo que pedir permiso para no ser sancionado</label>
+  </div>
+
+  <!-- 17 -->
+  <div class="question">
+    <p>17) ¿Quién decide el valor de las ganancias de mi negocio?</p>
+    <label><input type="radio" name="q17" value="a" required> Decido yo con mi organización, mis decisiones y mi estrategia</label>
+    <label><input type="radio" name="q17" value="b"> Las aplicaciones cuando fijan las tarifas de los viajes</label>
+    <label><input type="radio" name="q17" value="c"> Las empresas proveedoras de combustible</label>
+  </div>
+
+  <!-- 18 -->
+  <div class="question">
+    <p>18) ¿Cuánto incide mi forma de conducir en mis ganancias?</p>
+    <label><input type="radio" name="q18" value="a" required> Nada, la ganancia depende del valor de los viajes y las horas al volante</label>
+    <label><input type="radio" name="q18" value="b"> Muy poco porque lo que importa es mi rapidez para hacer muchos viajes</label>
+    <label><input type="radio" name="q18" value="c"> Mucho porque las multas las pago yo, además los pasajeros califican y denuncian en las aplicaciones a los conductores temerarios</label>
+  </div>
+
+  <!-- 19 -->
+  <div class="question">
+    <p>19) Si tengo una queja o un problema con una aplicación, ¿qué debo hacer?</p>
+    <label><input type="radio" name="q19" value="a" required> Llamar a Autonomy para que ellos se ocupen de todo</label>
+    <label><input type="radio" name="q19" value="b"> Resolver yo mismo, comunicándome con atención al cliente porque soy el jefe de mi propio negocio</label>
+    <label><input type="radio" name="q19" value="c"> Enojarme y no trabajar más</label>
+  </div>
+
+  <!-- 20 -->
+  <div class="question">
+    <p>20) ¿Cómo me siento luego de esta capacitación? <br><span style="font-size:0.95em;color:#555;">(Elegí la opción que más se acerca a tu realidad)</span></p>
+    <label><input type="radio" name="q20" value="a" required> Más preparado para comenzar a trabajar</label>
+    <label><input type="radio" name="q20" value="b"> Todavía tengo dudas, pero quiero seguir aprendiendo</label>
+    <label><input type="radio" name="q20" value="c"> No me interesa trabajar como conductor</label>
+  </div>
+
+  <button type="submit">Enviar</button>
+</form>
+<!-- ...modal y script existentes... -->
+
+<!-- ...existing code... -->
+  <div id="resultModal" class="modal">
+    <div class="modal-content">
+      <span id="modalText"></span>
+      <div id="extraMessage" style="margin-top:1.5rem; font-size:1.05em; color:#222;">
+        🎉 ¡Gracias por completar el cuestionario!<br>
+        Tu camino como conductor profesional está comenzando, y en Autonomy queremos acompañarte en cada paso.<br>
+        Recordá que ser profesional no es tener experiencia: es tener actitud, compromiso y ganas de mejorar todos los días.
+      </div>
+      <div id="customMessage" style="margin-top:1rem; font-size:1em; color:#007bff;"></div>
+      <br>
+      <button class="close-btn" onclick="closeModal()">Cerrar</button>
+    </div>
+  </div>
+<!-- ...existing code... -->
+  <script>
+    // Respuestas correctas para las 20 preguntas
+    const answers = {
+      q1: ['a', 'b', 'd', 'e'],
+      q2: 'b',
+      q3: 'a',
+      q4: ['a', 'b'],
+      q5: ['a', 'd'],
+      q6: 'b',
+      q7: 'a',
+      q8: 'b',
+      q9: 'b',
+      q10: 'b',
+      q11: ['a', 'b', 'd'],
+      q12: 'a',
+      q13: 'a',
+      q14: 'b',
+      q15: 'b',
+      q16: ['a', 'b'],
+      q17: 'a',
+      q18: 'c',
+      q19: 'b',
+      q20: null // Reflexión, no se evalúa como correcto/incorrecto
+    };
+
+    // Mensaje personalizado (puedes cambiarlo desde el script)
+    let customMessageText = "¡Felicitaciones! Has dado el primer paso para ser parte de Autonomy.";
+
+    function compareArrays(arr1, arr2) {
+      if (!arr1 || !arr2) return false;
+      if (arr1.length !== arr2.length) return false;
+      return arr1.every(val => arr2.includes(val));
+    }
+
+    document.getElementById('quizForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      let score = 0;
+      const total = 19; // Solo 19 preguntas se evalúan
+
+      const name = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+
+      // 1
+      const q1Checked = Array.from(document.querySelectorAll('input[name="q1"]:checked')).map(el => el.value);
+      if (compareArrays(q1Checked, answers.q1)) score++;
+
+      // 2
+      const q2 = document.querySelector('input[name="q2"]:checked');
+      if (q2 && q2.value === answers.q2) score++;
+
+      // 3
+      const q3 = document.querySelector('input[name="q3"]:checked');
+      if (q3 && q3.value === answers.q3) score++;
+
+      // 4
+      const q4Checked = Array.from(document.querySelectorAll('input[name="q4"]:checked')).map(el => el.value);
+      if (compareArrays(q4Checked, answers.q4)) score++;
+
+      // 5
+      const q5Checked = Array.from(document.querySelectorAll('input[name="q5"]:checked')).map(el => el.value);
+      if (compareArrays(q5Checked, answers.q5)) score++;
+
+      // 6
+      const q6 = document.querySelector('input[name="q6"]:checked');
+      if (q6 && q6.value === answers.q6) score++;
+
+      // 7
+      const q7 = document.querySelector('input[name="q7"]:checked');
+      if (q7 && q7.value === answers.q7) score++;
+
+      // 8
+      const q8 = document.querySelector('input[name="q8"]:checked');
+      if (q8 && q8.value === answers.q8) score++;
+
+      // 9
+      const q9 = document.querySelector('input[name="q9"]:checked');
+      if (q9 && q9.value === answers.q9) score++;
+
+      // 10
+      const q10 = document.querySelector('input[name="q10"]:checked');
+      if (q10 && q10.value === answers.q10) score++;
+
+      // 11
+      const q11Checked = Array.from(document.querySelectorAll('input[name="q11"]:checked')).map(el => el.value);
+      if (compareArrays(q11Checked, answers.q11)) score++;
+
+      // 12
+      const q12 = document.querySelector('input[name="q12"]:checked');
+      if (q12 && q12.value === answers.q12) score++;
+
+      // 13
+      const q13 = document.querySelector('input[name="q13"]:checked');
+      if (q13 && q13.value === answers.q13) score++;
+
+      // 14
+      const q14 = document.querySelector('input[name="q14"]:checked');
+      if (q14 && q14.value === answers.q14) score++;
+
+      // 15
+      const q15 = document.querySelector('input[name="q15"]:checked');
+      if (q15 && q15.value === answers.q15) score++;
+
+      // 16
+      const q16Checked = Array.from(document.querySelectorAll('input[name="q16"]:checked')).map(el => el.value);
+      if (compareArrays(q16Checked, answers.q16)) score++;
+
+      // 17
+      const q17 = document.querySelector('input[name="q17"]:checked');
+      if (q17 && q17.value === answers.q17) score++;
+
+      // 18
+      const q18 = document.querySelector('input[name="q18"]:checked');
+      if (q18 && q18.value === answers.q18) score++;
+
+      // 19
+      const q19 = document.querySelector('input[name="q19"]:checked');
+      if (q19 && q19.value === answers.q19) score++;
+
+      // 20 (no suma puntaje, es reflexión)
+
+      const percent = (score / total) * 100;
+      const passed = percent >= 70;
+
+      // Mostrar resultado en modal
+      const modal = document.getElementById('resultModal');
+      const modalText = document.getElementById('modalText');
+      modalText.textContent =
+        `Hola ${name} ${lastName}, obtuviste ${score} de ${total} ` +
+        `(${percent.toFixed(0)}%). ${passed ? 'Aprobado ✅' : 'No aprobado ❌'}.`;
+
+      // Mensaje personalizado
+      document.getElementById('customMessage').textContent = customMessageText;
+
+      modal.style.display = 'flex';
+
+      // Guardar el resultado para mostrarlo después
+      window.finalResult = modalText.textContent;
+      window.finalCustomMessage = customMessageText;
+
+      // Deshabilitar el formulario para evitar edición o nuevo intento
+      const form = document.getElementById('quizForm');
+      Array.from(form.elements).forEach(el => el.disabled = true);
+    });
+
+    function closeModal() {
+      document.getElementById('resultModal').style.display = 'none';
+      // Ocultar el formulario y mostrar solo la calificación y mensaje personalizado
+      document.getElementById('quizForm').style.display = 'none';
+
+      // Crear y mostrar el resultado final
+      let resultDiv = document.getElementById('finalResult');
+      if (!resultDiv) {
+        resultDiv = document.createElement('div');
+        resultDiv.id = 'finalResult';
+        resultDiv.style.margin = '2rem auto';
+        resultDiv.style.fontSize = '1.3rem';
+        resultDiv.style.fontWeight = 'bold';
+        resultDiv.style.textAlign = 'center';
+        resultDiv.style.background = '#fff';
+        resultDiv.style.borderRadius = '12px';
+        resultDiv.style.boxShadow = '0 2px 12px rgba(0,0,0,0.08)';
+        resultDiv.style.padding = '2rem';
+        document.body.appendChild(resultDiv);
+      }
+      resultDiv.innerHTML = `
+        ${window.finalResult || ''}
+        <div style="margin-top:1.5rem; font-size:1.05em; color:#222;">
+          🎉 ¡Gracias por completar el cuestionario!<br>
+          Tu camino como conductor profesional está comenzando, y en Autonomy queremos acompañarte en cada paso.<br>
+          Recordá que ser profesional no es tener experiencia: es tener actitud, compromiso y ganas de mejorar todos los días.
+        </div>
+        <div style="margin-top:1rem; font-size:1em; color:#007bff;">
+          ${window.finalCustomMessage || ''}
+        </div>
+      `;
+    }
+  </script>
+<!-- ...existing code... -->
+</body>
