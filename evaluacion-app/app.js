@@ -23,7 +23,7 @@ function guardarEvaluado(evaluado) {
 
 // Preguntas y respuestas correctas
 const preguntas = [
-  // ... (agrega aquí todas las preguntas y opciones que enviaste antes)
+  // ...todas las preguntas y opciones que tienes actualmente...
 ];
 
 const correctas = {
