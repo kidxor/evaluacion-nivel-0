@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Listado de Evaluados</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <h1>Listado de Evaluados</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Resultado</th>
+        <th>Detalles</th>
+      </tr>
+    </thead>
+    <tbody id="evaluadosList">
+      <!-- Aquí se llenarán los datos de los evaluados -->
+    </tbody>
+  </table>
+
+  <script src="../app.js"></script>
+  <script>
+    // Función para cargar la lista de evaluados desde evaluados.json
+    async function loadEvaluados() {
+      const response = await fetch('../evaluados.json');
+      const evaluados = await response.json();
+      const evaluadosList = document.getElementById('evaluadosList');
+
+      evaluados.forEach(evaluado => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${evaluado.nombre}</td>
+          <td>${evaluado.apellido}</td>
+          <td>${evaluado.resultado}</td>
+          <td><a href="detalle.html?id=${evaluado.id}">Ver Detalles</a></td>
+        `;
+        evaluadosList.appendChild(row);
+      });
+    }
+
+    // Cargar la lista al iniciar
+    loadEvaluados();
+  </script>
+</body>
+</html>
