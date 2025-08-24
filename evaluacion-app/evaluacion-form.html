@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario de Evaluación</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Modal para nombre y apellido -->
+  <div id="userModal" class="modal-bg">
+    <form id="userForm" class="modal-box" autocomplete="off">
+      <h2>Ingresa tus datos</h2>
+      <label>
+        Nombre:
+        <input type="text" id="modalFirstName" required autocomplete="given-name">
+      </label>
+      <label>
+        Apellido:
+        <input type="text" id="modalLastName" required autocomplete="family-name">
+      </label>
+      <button type="submit">Comenzar evaluación</button>
+    </form>
+  </div>
+
+  <main style="display:none;" id="mainContent">
+    <form id="quizForm">
+      <input type="hidden" id="firstName">
+      <input type="hidden" id="lastName">
+      <div id="questionsContainer"></div>
+      <button type="submit">Enviar</button>
+    </form>
+
+    <div id="resultModal" class="modal" style="display:none;">
+      <div class="modal-content">
+        <span id="modalText"></span>
+        <button class="close-btn" onclick="closeModal()">Cerrar</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="evaluacion.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
