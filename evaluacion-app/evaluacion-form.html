@@ -8,7 +8,7 @@
 </head>
 <body>
   <!-- Modal para nombre y apellido -->
-  <div id="userModal" class="modal-bg">
+  <div id="userModal" class="modal-bg" style="display:flex;">
     <form id="userForm" class="modal-box" autocomplete="off">
       <h2>Ingresa tus datos</h2>
       <label>
@@ -40,11 +40,80 @@
   </main>
 
   <script src="evaluacion.js"></script>
-  <script src="app.js"></script>
   <script>
-    window.onload = function() {
-      document.getElementById('userModal').style.display = 'flex';
-    };
+    function renderPreguntas() {
+      const container = document.getElementById('questionsContainer');
+      container.innerHTML = window.preguntas.map(p => {
+        if (p.tipo === "checkbox") {
+          return `
+            <div class="question">
+              <p><b>${p.texto}</b></p>
+              ${p.opciones.map(o =>
+                `<label><input type="checkbox" name="${p.id}" value="${o.value}"> ${o.label}</label>`
+              ).join('')}
+            </div>
+          `;
+        } else if (p.tipo === "radio") {
+          return `
+            <div class="question">
+              <p><b>${p.texto}</b></p>
+              ${p.opciones.map(o =>
+                `<label><input type="radio" name="${p.id}" value="${o.value}" required> ${o.label}</label>`
+              ).join('')}
+            </div>
+          `;
+        }
+        return '';
+      }).join('');
+    }
+
+    document.getElementById('userForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('modalFirstName').value.trim();
+      const apellido = document.getElementById('modalLastName').value.trim();
+      if (!nombre || !apellido) return;
+      document.getElementById('firstName').value = nombre;
+      document.getElementById('lastName').value = apellido;
+      document.getElementById('userModal').style.display = 'none';
+      document.getElementById('mainContent').style.display = 'block';
+      renderPreguntas();
+    });
+
+    document.getElementById('quizForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      let score = 0;
+      const total = 19;
+      const respuestas = {};
+      window.preguntas.forEach(p => {
+        if (p.tipo === "checkbox") {
+          respuestas[p.id] = Array.from(document.querySelectorAll(`input[name="${p.id}"]:checked`)).map(i => i.value);
+        } else if (p.tipo === "radio") {
+          const val = document.querySelector(`input[name="${p.id}"]:checked`);
+          respuestas[p.id] = val ? val.value : '';
+        }
+      });
+      Object.keys(window.correctas).forEach(q => {
+        if (window.correctas[q] === null) return;
+        if (Array.isArray(window.correctas[q])) {
+          if (Array.isArray(respuestas[q]) &&
+              respuestas[q].sort().join(',') === window.correctas[q].sort().join(',')) score++;
+        } else {
+          if (respuestas[q] === window.correctas[q]) score++;
+        }
+      });
+      const percent = Math.round((score / total) * 100);
+      const passed = percent >= 70;
+      document.getElementById('modalText').innerHTML =
+        `<b>${document.getElementById('firstName').value} ${document.getElementById('lastName').value}</b>, obtuviste <b>${score}</b> de <b>${total}</b> (${percent}%).<br>
+        <span style="color:${passed ? '#16a34a' : '#dc2626'}; font-weight:bold;">
+          ${passed ? 'Aprobado ✅' : 'No aprobado ❌'}
+        </span>`;
+      document.getElementById('resultModal').style.display = 'flex';
+    });
+
+    function closeModal() {
+      document.getElementById('resultModal').style.display = 'none';
+    }
   </script>
 </body>
 </html>
