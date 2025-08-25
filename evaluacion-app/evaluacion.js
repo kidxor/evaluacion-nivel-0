@@ -131,27 +131,27 @@
 {id:"q19",texto:"Si tengo una queja o un problema con una aplicación, ¿qué debo hacer?",tipo:"radio",opciones:[{value:"a",label:"Llamar a Autonomy para que ellos se ocupen de todo"},{value:"b",label:"Resolver yo mismo, comunicándome con atención al cliente porque soy el jefe de mi propio negocio"},{value:"c",label:"Enojarme y no trabajar más"}]},
 {id:"q20",texto:"¿Cómo me siento luego de esta capacitación? (Elegí la opción que más se acerca a tu realidad)",tipo:"radio",opciones:[{value:"a",label:"Más preparado para comenzar a trabajar"},{value:"b",label:"Todavía tengo dudas, pero quiero seguir aprendiendo"},{value:"c",label:"No me interesa trabajar como conductor"}]}
 ];
-window.correctas={
-q1:['a','b','d','e'],
-q2:'b',
-q3:'a',
-q4:['a','b'],
-q5:['a','d'],
-q6:'b',
-q7:'a',
-q8:'b',
-q9:'b',
-q10:'b',
-q11:['a','b','d'],
-q12:'a',
-q13:'a',
-q14:'b',
-q15:'b',
-q16:['a','b'],
-q17:'a',
-q18:'c',
-q19:'b',
-q20:'a'
+window.correctas = {
+  q1: ['a','b','d','e'],
+  q2: 'b',
+  q3: 'a',
+  q4: ['a','b'],
+  q5: ['a','d'],
+  q6: 'b',
+  q7: 'a',
+  q8: 'b',
+  q9: 'b',
+  q10: 'b',
+  q11: ['a','b','d'],
+  q12: 'a',
+  q13: 'a',
+  q14: 'b',
+  q15: 'b',
+  q16: ['a','b'],
+  q17: 'a',
+  q18: 'c',
+  q19: 'b',
+  q20: null
 };
 document.getElementById('datosForm').addEventListener('submit', function(e) {
   e.preventDefault();
