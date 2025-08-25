@@ -6,154 +6,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
   <style>
-    body {
-      background: #f8f9fa;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .form-container {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 2px 12px rgba(59,130,246,0.08);
-      padding: 2.5rem 2rem;
-      max-width: 420px;
-      margin: 3rem auto 2rem auto;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    .form-container h2 {
-      color: #2563eb;
-      margin-bottom: 1.2em;
-      text-align: center;
-    }
-    label {
-      font-size: 1rem;
-      color: #333;
-      margin-bottom: 0.5rem;
-      display: block;
-    }
-    input[type="text"], input[type="tel"] {
-      width: 100%;
-      padding: 0.7rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-      margin-top: 0.3rem;
-      box-sizing: border-box;
-    }
-    button[type="submit"] {
-      background: #2563eb;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 0.9rem 0;
-      font-size: 1.1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-      margin-top: 1rem;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-    }
-    button[type="submit"]:hover {
-      background: #1746a0;
-    }
-    .question {
-      background: #f1f3f6;
-      border-radius: 8px;
-      padding: 1rem;
-      margin-bottom: 0;
-      margin-top: 1rem;
-    }
-    .question p {
-      margin: 0 0 0.7rem 0;
-      font-weight: 500;
-      color: #222;
-    }
-    .question label {
-      display: flex;
-      align-items: center;
-      margin-bottom: 0.5rem;
-      font-size: 0.98rem;
-      cursor: pointer;
-    }
-    input[type="radio"], input[type="checkbox"] {
-      margin-right: 0.7em;
-      accent-color: #2563eb;
-    }
-    .result-modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0; top: 0; width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.35);
-      justify-content: center; align-items: center;
-    }
-    .result-content {
-      background: #fff;
-      padding: 2rem 1.5rem;
-      border-radius: 16px;
-      text-align: center;
-      min-width: 260px;
-      max-width: 90vw;
-      box-shadow: 0 2px 12px rgba(59,130,246,0.08);
-    }
-    .close-btn {
-      margin-top: 1.2rem;
-      padding: 0.7rem 2rem;
-      background: #2563eb;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-      font-weight: 500;
-      transition: background 0.2s;
-    }
-    .close-btn:hover {
-      background: #1746a0;
-    }
+    body { background: #f8f9fa; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; min-height: 100vh; display: flex; }
+    .sidebar { width: 220px; background: #2563eb; color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: flex-start; padding: 2rem 1rem 1rem 1rem; box-shadow: 2px 0 12px rgba(59,130,246,0.08); position: fixed; left: 0; top: 0; bottom: 0; z-index: 100; }
+    .sidebar h2 { font-size: 1.3em; margin-bottom: 2em; font-weight: bold; letter-spacing: 1px; }
+    .sidebar a { color: #fff; text-decoration: none; font-size: 1.08em; margin-bottom: 1.2em; padding: 0.5em 1em; border-radius: 6px; display: block; transition: background 0.2s; }
+    .sidebar a.active, .sidebar a:hover { background: #1746a0; }
+    .main-content { margin-left: 220px; flex: 1; display: flex; flex-direction: column; align-items: center; min-height: 100vh; width: 100%; }
+    @media (max-width: 900px) { .sidebar { position: relative; width: 100vw; min-height: unset; flex-direction: row; align-items: center; justify-content: flex-start; padding: 1rem 0.5rem; box-shadow: none; } .sidebar h2 { margin-bottom: 0; margin-right: 2em; } .main-content { margin-left: 0; margin-top: 80px; } }
+    .form-container { background: #fff; border-radius: 16px; box-shadow: 0 2px 12px rgba(59,130,246,0.08); padding: 2.5rem 2rem; max-width: 600px; margin: 3rem auto 2rem auto; width: 100%; display: flex; flex-direction: column; gap: 1.5rem; }
+    .form-container h2 { color: #2563eb; margin-bottom: 1.2em; text-align: center; }
+    label { font-size: 1rem; color: #333; margin-bottom: 0.5rem; display: block; }
+    input[type="text"], input[type="tel"] { width: 100%; padding: 0.7rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; margin-top: 0.3rem; box-sizing: border-box; }
+    button[type="submit"] { background: #2563eb; color: #fff; border: none; border-radius: 6px; padding: 0.9rem 0; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; margin-top: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    button[type="submit"]:hover { background: #1746a0; }
+    .question { background: #f1f3f6; border-radius: 8px; padding: 1rem; margin-bottom: 0; margin-top: 1rem; }
+    .question p { margin: 0 0 0.7rem 0; font-weight: 500; color: #222; }
+    .question label { display: flex; align-items: center; margin-bottom: 0.5rem; font-size: 0.98rem; cursor: pointer; }
+    input[type="radio"], input[type="checkbox"] { margin-right: 0.7em; accent-color: #2563eb; }
   </style>
 </head>
 <body>
-  <form id="datosForm" class="form-container">
-    <h2>Datos del Evaluado</h2>
-    <label>
-      Nombre:
-      <input type="text" id="firstName" required autocomplete="given-name">
-    </label>
-    <label>
-      Apellido:
-      <input type="text" id="lastName" required autocomplete="family-name">
-    </label>
-    <label>
-      Número de celular (Argentina):
-      <input type="tel" id="celular" required pattern="^(\+54|54)?[0-9]{10,12}$" placeholder="Ej: 1123456789">
-    </label>
-    <button type="submit">Comenzar evaluación</button>
-  </form>
-
-  <main style="display:none;" id="mainContent">
-    <form id="quizForm">
+  <nav class="sidebar">
+    <h2>Autonomy</h2>
+    <a href="index.html">Inicio</a>
+    <a href="evaluacion-form.html" class="active">Evaluación</a>
+    <a href="evaluados.html">Resultados</a>
+  </nav>
+  <div class="main-content">
+    <form id="datosForm" class="form-container">
+      <h2>Datos del Evaluado</h2>
+      <label>
+        Nombre:
+        <input type="text" id="firstName" required autocomplete="given-name">
+      </label>
+      <label>
+        Apellido:
+        <input type="text" id="lastName" required autocomplete="family-name">
+      </label>
+      <label>
+        Número de celular (Argentina):
+        <input type="tel" id="celular" required pattern="^(\+54|54)?[0-9]{10,12}$" placeholder="Ej: 1123456789">
+      </label>
+      <button type="submit">Comenzar evaluación</button>
+    </form>
+    <form id="quizForm" class="form-container" style="display:none;">
+      <h2>Preguntas de la Evaluación</h2>
       <input type="hidden" id="hiddenFirstName">
       <input type="hidden" id="hiddenLastName">
       <input type="hidden" id="hiddenCelular">
       <div id="questionsContainer"></div>
       <button type="submit">Enviar respuestas</button>
     </form>
-    <div id="resultModal" class="result-modal">
-      <div class="result-content">
-        <span id="modalText"></span>
-        <button class="close-btn" onclick="closeModal()">Cerrar</button>
-      </div>
-    </div>
-  </main>
-
+  </div>
   <script src="evaluacion.js"></script>
   <script>
     // Mostrar preguntas al enviar datos personales
@@ -167,7 +71,7 @@
       document.getElementById('hiddenLastName').value = apellido;
       document.getElementById('hiddenCelular').value = celular;
       document.getElementById('datosForm').style.display = 'none';
-      document.getElementById('mainContent').style.display = 'block';
+      document.getElementById('quizForm').style.display = 'flex';
       renderPreguntas();
     });
 
@@ -198,7 +102,7 @@
       }).join('');
     }
 
-    // Procesa el formulario y muestra el resultado
+    // Procesa el formulario y redirige a la página de agradecimiento
     document.getElementById('quizForm').addEventListener('submit', function(e) {
       e.preventDefault();
       let score = 0;
@@ -223,12 +127,6 @@
       });
       const percent = Math.round((score / total) * 100);
       const passed = percent >= 70;
-      document.getElementById('modalText').innerHTML =
-        `<b>${document.getElementById('hiddenFirstName').value} ${document.getElementById('hiddenLastName').value}</b>, obtuviste <b>${score}</b> de <b>${total}</b> (${percent}%).<br>
-        <span style="color:${passed ? '#16a34a' : '#dc2626'}; font-weight:bold;">
-          ${passed ? 'Aprobado ✅' : 'No aprobado ❌'}
-        </span>`;
-      document.getElementById('resultModal').style.display = 'flex';
 
       // Guardar resultado en localStorage para la página de resultados
       const evaluados = JSON.parse(localStorage.getItem('evaluados') || '[]');
@@ -244,11 +142,10 @@
         respuestas
       });
       localStorage.setItem('evaluados', JSON.stringify(evaluados));
-    });
 
-    function closeModal() {
-      document.getElementById('resultModal').style.display = 'none';
-    }
+      // Redirigir a la página de agradecimiento
+      window.location.href = "agradecimiento.html";
+    });
   </script>
 </body>
 </html>
