@@ -151,13 +151,4 @@ q16:['a','b'],
 q17:'a',
 q18:'c',
 q19:'b',
-q20:null
-};
-  </script>
-  <script src="evaluacion.js"></script>
-  <script>
-  // Aquí va la lógica para mostrar el formulario y procesar respuestas
-  </script>
-</body>
-</html>
 
