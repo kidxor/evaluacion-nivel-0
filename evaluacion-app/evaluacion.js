@@ -1,7 +1,116 @@
-// Este archivo contiene la lista de preguntas y respuestas correctas para la evaluación
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Autonomy | Evaluación de Conocimientos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background: #f8f9fa;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+    }
+    .sidebar {
+      width: 220px;
+      background: #2563eb;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 2rem 1rem 1rem 1rem;
+      box-shadow: 2px 0 12px rgba(59,130,246,0.08);
+      position: fixed;
+      left: 0; top: 0; bottom: 0;
+      z-index: 100;
+    }
+    .sidebar h2 {
+      font-size: 1.3em;
+      margin-bottom: 2em;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .sidebar a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.08em;
+      margin-bottom: 1.2em;
+      padding: 0.5em 1em;
+      border-radius: 6px;
+      display: block;
+      transition: background 0.2s;
+    }
+    .sidebar a.active, .sidebar a:hover {
+      background: #1746a0;
+    }
+    .main-content {
+      margin-left: 220px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      width: 100%;
+    }
+    @media (max-width: 900px) {
+      .sidebar {
+        position: relative;
+        width: 100vw;
+        min-height: unset;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 1rem 0.5rem;
+        box-shadow: none;
+      }
+      .sidebar h2 {
+        margin-bottom: 0;
+        margin-right: 2em;
+      }
+      .main-content {
+        margin-left: 0;
+        margin-top: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="sidebar">
+    <h2>Autonomy</h2>
+    <a href="index.html" class="active">Inicio</a>
+    <a href="evaluacion-form.html">Evaluación</a>
+    <a href="evaluados.html">Resultados</a>
+  </nav>
+  <div class="main-content">
+    <!-- Aquí va el contenido específico de cada página -->
+    <!-- Ejemplo para index.html: -->
+    <header>
+      <h1 style="margin-top:2rem; color:#2563eb;">Bienvenido a la Evaluación Autonomy</h1>
+      <p style="text-align:center; color:#444; font-size:1.1em;">
+        Selecciona una opción para comenzar o revisar tus resultados.
+      </p>
+    </header>
+    <div class="cards-container">
+      <div class="card">
+        <h2>Iniciar Evaluación</h2>
+        <p>Completa el formulario y obtén tu resultado al instante.</p>
+        <a href="evaluacion-form.html">Comenzar evaluación</a>
+      </div>
+      <div class="card">
+        <h2>Resultados de Evaluación</h2>
+        <p>Consulta la lista de evaluados y exporta los resultados.</p>
+        <a href="evaluados.html">Ver resultados</a>
+      </div>
+    </div>
+  </div>
 
-window.preguntas = [
-  // Ejemplo de pregunta tipo checkbox
+  <!-- Este archivo contiene la lista de preguntas y respuestas correctas para la evaluación -->
+
+  <script>
+  window.preguntas = [
   {
     id: "q1",
     texto: "¿Qué necesito para poder comenzar a trabajar como conductor en Autonomy? (Podés elegir más de una)",
@@ -15,7 +124,6 @@ window.preguntas = [
       { value: "f", label: "Pasaporte vigente" }
     ]
   },
-  // Ejemplo de pregunta tipo radio
   {
     id: "q2",
     texto: "¿Por qué es importante asistir y aprobar esta capacitación?",
@@ -235,4 +343,7 @@ window.correctas = {
   q19: 'b',
   q20: null // Reflexión, no se evalúa
 };
+  </script>
+</body>
+</html>
 
