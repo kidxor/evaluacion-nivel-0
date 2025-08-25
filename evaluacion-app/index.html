@@ -46,7 +46,7 @@
       font-size: 1em;
       margin-bottom: 2em;
     }
-    .card a, .card button {
+    .card a {
       display: inline-block;
       background: #2563eb;
       color: #fff;
@@ -57,10 +57,8 @@
       text-decoration: none;
       box-shadow: 0 1px 4px rgba(0,0,0,0.07);
       transition: background 0.2s;
-      border: none;
-      cursor: pointer;
     }
-    .card a:hover, .card button:hover {
+    .card a:hover {
       background: #1746a0;
     }
     @media (max-width: 800px) {
@@ -69,63 +67,6 @@
         gap: 2rem;
         align-items: center;
       }
-    }
-    /* Estilos para el formulario de evaluación */
-    .modal-bg, .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0; top: 0; width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.35);
-      justify-content: center; align-items: center;
-      transition: background 0.2s;
-    }
-    .modal-box, .modal-content {
-      background: #fff;
-      padding: 2rem 1.5rem;
-      border-radius: 16px;
-      text-align: center;
-      min-width: 260px;
-      max-width: 90vw;
-      box-shadow: 0 2px 12px rgba(59,130,246,0.08);
-    }
-    .close-btn {
-      margin-top: 1.2rem;
-      padding: 0.7rem 2rem;
-      background: #2563eb;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-      font-weight: 500;
-      transition: background 0.2s;
-    }
-    .close-btn:hover {
-      background: #1746a0;
-    }
-    .question {
-      background: #f1f3f6;
-      border-radius: 8px;
-      padding: 1rem;
-      margin-bottom: 0;
-      margin-top: 1rem;
-    }
-    .question p {
-      margin: 0 0 0.7rem 0;
-      font-weight: 500;
-      color: #222;
-    }
-    .question label {
-      display: flex;
-      align-items: center;
-      margin-bottom: 0.5rem;
-      font-size: 0.98rem;
-      cursor: pointer;
-    }
-    input[type="radio"], input[type="checkbox"] {
-      margin-right: 0.7em;
-      accent-color: #2563eb;
     }
   </style>
 </head>
@@ -140,7 +81,7 @@
     <div class="card">
       <h2>Iniciar Evaluación</h2>
       <p>Completa el formulario y obtén tu resultado al instante.</p>
-      <button id="openEvalBtn">Comenzar evaluación</button>
+      <a href="evaluacion-form.html">Comenzar evaluación</a>
     </div>
     <div class="card">
       <h2>Resultados de Evaluación</h2>
@@ -148,46 +89,5 @@
       <a href="evaluados.html">Ver resultados</a>
     </div>
   </div>
-
-  <!-- Formulario de evaluación embebido -->
-  <div id="userModal" class="modal-bg">
-    <form id="userForm" class="modal-box" autocomplete="off">
-      <h2>Ingresa tus datos</h2>
-      <label>
-        Nombre:
-        <input type="text" id="modalFirstName" required autocomplete="given-name">
-      </label>
-      <label>
-        Apellido:
-        <input type="text" id="modalLastName" required autocomplete="family-name">
-      </label>
-      <button type="submit">Comenzar evaluación</button>
-    </form>
-  </div>
-
-  <main style="display:none;" id="mainContent">
-    <form id="quizForm">
-      <input type="hidden" id="firstName">
-      <input type="hidden" id="lastName">
-      <div id="questionsContainer"></div>
-      <button type="submit">Enviar</button>
-    </form>
-
-    <div id="resultModal" class="modal" style="display:none;">
-      <div class="modal-content">
-        <span id="modalText"></span>
-        <button class="close-btn" onclick="closeModal()">Cerrar</button>
-      </div>
-    </div>
-  </main>
-
-  <script src="evaluacion.js"></script>
-  <script src="app.js"></script>
-  <script>
-    // Mostrar el modal al hacer clic en el botón de la card
-    document.getElementById('openEvalBtn').onclick = function() {
-      document.getElementById('userModal').style.display = 'flex';
-    };
-  </script>
 </body>
 </html>
