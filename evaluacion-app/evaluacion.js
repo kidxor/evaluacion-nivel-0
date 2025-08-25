@@ -151,4 +151,19 @@ q16:['a','b'],
 q17:'a',
 q18:'c',
 q19:'b',
+q20:'a'
+};
+document.getElementById('datosForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  // Validación de campos
+  const nombre = document.getElementById('firstName').value.trim();
+  const apellido = document.getElementById('lastName').value.trim();
+  const celular = document.getElementById('celular').value.trim();
+  if (!nombre || !apellido || !celular) return;
+  document.getElementById('datosForm').style.display = 'none';
+  document.getElementById('quizForm').style.display = 'flex'; // O 'block'
+});
+  </script>
+</body>
+</html>
 
