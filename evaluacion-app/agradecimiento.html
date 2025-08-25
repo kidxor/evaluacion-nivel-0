@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>¡Gracias por tu evaluación!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { background: #f8f9fa; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; min-height: 100vh; display: flex; }
+    .sidebar { width: 220px; background: #2563eb; color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: flex-start; padding: 2rem 1rem 1rem 1rem; box-shadow: 2px 0 12px rgba(59,130,246,0.08); position: fixed; left: 0; top: 0; bottom: 0; z-index: 100; }
+    .sidebar h2 { font-size: 1.3em; margin-bottom: 2em; font-weight: bold; letter-spacing: 1px; }
+    .sidebar a { color: #fff; text-decoration: none; font-size: 1.08em; margin-bottom: 1.2em; padding: 0.5em 1em; border-radius: 6px; display: block; transition: background 0.2s; }
+    .sidebar a.active, .sidebar a:hover { background: #1746a0; }
+    .main-content { margin-left: 220px; flex: 1; display: flex; flex-direction: column; align-items: center; min-height: 100vh; width: 100%; justify-content: center; }
+    .thanks-box { background: #fff; border-radius: 16px; box-shadow: 0 2px 12px rgba(59,130,246,0.08); padding: 2.5rem 2rem; max-width: 420px; margin: 3rem auto 2rem auto; width: 100%; text-align: center; }
+    .thanks-box h1 { color: #2563eb; margin-bottom: 1em; font-size: 1.5em; }
+    .thanks-box p { color: #444; font-size: 1.1em; margin-top: 1.5em; white-space: pre-line; }
+    .emoji { font-size: 2.5em; }
+    .thanks-box a { display:inline-block; margin-top:2em; background:#2563eb; color:#fff; padding:0.8em 2em; border-radius:8px; text-decoration:none; font-weight:600; }
+    .thanks-box a:hover { background: #1746a0; }
+  </style>
+</head>
+<body>
+  <nav class="sidebar">
+    <h2>Autonomy</h2>
+    <a href="index.html">Inicio</a>
+    <a href="evaluacion-form.html">Evaluación</a>
+    <a href="evaluados.html">Resultados</a>
+  </nav>
+  <div class="main-content">
+    <div class="thanks-box">
+      <div class="emoji">🎉</div>
+      <h1>¡Gracias por completar el cuestionario!</h1>
+      <p>
+Tu camino como conductor profesional está comenzando, y en Autonomy queremos acompañarte en cada paso.
+Recordá que ser profesional no es tener experiencia: es tener actitud, compromiso y ganas de mejorar todos los días.
+      </p>
+      <a href="index.html">Volver al inicio</a>
+    </div>
+  </div>
+</body>
+</html>
