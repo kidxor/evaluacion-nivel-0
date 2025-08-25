@@ -2,20 +2,201 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Lista de Evaluados</title>
+  <title>Resultados de Evaluación</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background: #f8f9fa;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .login-modal {
+      display: flex;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.35);
+      justify-content: center; align-items: center;
+    }
+    .login-box {
+      background: #fff;
+      padding: 2rem 1.5rem;
+      border-radius: 16px;
+      text-align: center;
+      min-width: 260px;
+      max-width: 90vw;
+      box-shadow: 0 2px 12px rgba(59,130,246,0.08);
+    }
+    .cards-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(59,130,246,0.08);
+      padding: 2rem 1.5rem;
+      min-width: 260px;
+      max-width: 340px;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .card h3 {
+      color: #2563eb;
+      margin: 0 0 0.5em 0;
+      font-size: 1.15em;
+    }
+    .card .estado {
+      font-weight: bold;
+      margin-bottom: 0.7em;
+    }
+    .card details {
+      margin-top: 1em;
+      width: 100%;
+    }
+    .card summary {
+      cursor: pointer;
+      color: #2563eb;
+      font-weight: 500;
+      font-size: 1em;
+    }
+    .card ul {
+      margin: 0.5em 0 0 1em;
+      font-size: 0.97em;
+      padding-left: 0;
+    }
+    .card li {
+      margin-bottom: 0.3em;
+    }
+    .export-btn {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.8em 2em;
+      font-size: 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 2em;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      transition: background 0.2s;
+    }
+    .export-btn:hover {
+      background: #1746a0;
+    }
+    @media (max-width: 800px) {
+      .cards-container {
+        flex-direction: column;
+        gap: 2rem;
+        align-items: center;
+      }
+      .card {
+        max-width: 98vw;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div id="loginModal" class="login-modal">
+    <form id="loginForm" class="login-box" autocomplete="off">
+      <h2>Acceso a Resultados</h2>
+      <label>
+        Contraseña:
+        <input type="password" id="passwordInput" required>
+      </label>
+      <button type="submit" style="margin-top:1em;">Ingresar</button>
+      <div id="loginError" style="color:#dc2626; margin-top:1em; display:none;">Contraseña incorrecta</div>
+    </form>
+  </div>
+
   <header>
-    <h1>Lista de Evaluados</h1>
-    <nav>
-      <a href="index.html">Volver a la evaluación</a>
-    </nav>
+    <h1 style="margin-top:2rem; color:#2563eb;">Resultados de Evaluación</h1>
+    <p style="text-align:center; color:#444; font-size:1.1em;">
+      Consulta los resultados por nombre y apellido. Haz clic en cada tarjeta para ver las respuestas.
+    </p>
   </header>
-  <main>
-    <div id="evaluadosList"></div>
-  </main>
-  <script src="evaluados.js"></script>
+  <button id="exportExcelBtn" class="export-btn" style="display:none;">Exportar a Excel</button>
+  <div class="cards-container" id="evaluadosList"></div>
+
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+  <script>
+    // Contraseña simple (puedes cambiarla)
+    const PASSWORD = "autonomy2024";
+
+    // Simulación de resultados (puedes reemplazar por localStorage o API)
+    // Ejemplo: [{nombre, apellido, fecha, score, total, percent, passed, respuestas:{q1:..., q2:...}}]
+    let evaluados = JSON.parse(localStorage.getItem('evaluados') || '[]');
+
+    // Acceso por contraseña
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const pass = document.getElementById('passwordInput').value;
+      if (pass === PASSWORD) {
+        document.getElementById('loginModal').style.display = 'none';
+        mostrarEvaluados();
+        document.getElementById('exportExcelBtn').style.display = 'inline-block';
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+      }
+    });
+
+    function mostrarEvaluados() {
+      const listDiv = document.getElementById('evaluadosList');
+      if (!evaluados || evaluados.length === 0) {
+        listDiv.innerHTML = '<p>No hay evaluados aún.</p>';
+        return;
+      }
+      listDiv.innerHTML = evaluados.map(ev => `
+        <div class="card">
+          <h3>${ev.nombre} ${ev.apellido}</h3>
+          <div style="color:#555; font-size:0.97em;">${ev.fecha}</div>
+          <div class="estado" style="color:${ev.passed ? '#16a34a' : '#dc2626'};">
+            ${ev.passed ? 'Aprobado ✅' : 'No aprobado ❌'}
+          </div>
+          <div>Puntaje: <b>${ev.score} / ${ev.total}</b> (${ev.percent}%)</div>
+          <details>
+            <summary>Ver respuestas</summary>
+            <ul>
+              ${Object.entries(ev.respuestas).map(([q, r]) =>
+                `<li><b>${q}:</b> ${r ? r : '<i>Sin respuesta</i>'}</li>`
+              ).join('')}
+            </ul>
+          </details>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('exportExcelBtn').onclick = function() {
+      if (!evaluados || evaluados.length === 0) {
+        alert('No hay evaluaciones para exportar.');
+        return;
+      }
+      const data = evaluados.map(ev => ({
+        Nombre: ev.nombre,
+        Apellido: ev.apellido,
+        Fecha: ev.fecha,
+        Puntaje: ev.score,
+        Total: ev.total,
+        Porcentaje: ev.percent,
+        Estado: ev.passed ? 'Aprobado' : 'No aprobado',
+        ...ev.respuestas
+      }));
+      const ws = XLSX.utils.json_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Evaluados");
+      XLSX.writeFile(wb, "evaluados.xlsx");
+    };
+  </script>
 </body>
 </html>
