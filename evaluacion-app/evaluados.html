@@ -6,139 +6,60 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
   <style>
-    body {
-      background: #f8f9fa;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .login-modal {
-      display: flex;
-      position: fixed;
-      z-index: 1000;
-      left: 0; top: 0; width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.35);
-      justify-content: center; align-items: center;
-    }
-    .login-box {
-      background: #fff;
-      padding: 2rem 1.5rem;
-      border-radius: 16px;
-      text-align: center;
-      min-width: 260px;
-      max-width: 90vw;
-      box-shadow: 0 2px 12px rgba(59,130,246,0.08);
-    }
-    .cards-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      justify-content: center;
-      margin-top: 2rem;
-      margin-bottom: 2rem;
-    }
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 2px 12px rgba(59,130,246,0.08);
-      padding: 2rem 1.5rem;
-      min-width: 260px;
-      max-width: 340px;
-      margin-bottom: 1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .card h3 {
-      color: #2563eb;
-      margin: 0 0 0.5em 0;
-      font-size: 1.15em;
-    }
-    .card .estado {
-      font-weight: bold;
-      margin-bottom: 0.7em;
-    }
-    .card details {
-      margin-top: 1em;
-      width: 100%;
-    }
-    .card summary {
-      cursor: pointer;
-      color: #2563eb;
-      font-weight: 500;
-      font-size: 1em;
-    }
-    .card ul {
-      margin: 0.5em 0 0 1em;
-      font-size: 0.97em;
-      padding-left: 0;
-    }
-    .card li {
-      margin-bottom: 0.3em;
-    }
-    .export-btn {
-      background: #2563eb;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 0.8em 2em;
-      font-size: 1.1em;
-      font-weight: 600;
-      cursor: pointer;
-      margin-bottom: 2em;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-      transition: background 0.2s;
-    }
-    .export-btn:hover {
-      background: #1746a0;
-    }
-    @media (max-width: 800px) {
-      .cards-container {
-        flex-direction: column;
-        gap: 2rem;
-        align-items: center;
-      }
-      .card {
-        max-width: 98vw;
-      }
-    }
+    body { background: #f8f9fa; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; min-height: 100vh; display: flex; }
+    .sidebar { width: 220px; background: #2563eb; color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: flex-start; padding: 2rem 1rem 1rem 1rem; box-shadow: 2px 0 12px rgba(59,130,246,0.08); position: fixed; left: 0; top: 0; bottom: 0; z-index: 100; }
+    .sidebar h2 { font-size: 1.3em; margin-bottom: 2em; font-weight: bold; letter-spacing: 1px; }
+    .sidebar a { color: #fff; text-decoration: none; font-size: 1.08em; margin-bottom: 1.2em; padding: 0.5em 1em; border-radius: 6px; display: block; transition: background 0.2s; }
+    .sidebar a.active, .sidebar a:hover { background: #1746a0; }
+    .main-content { margin-left: 220px; flex: 1; display: flex; flex-direction: column; align-items: center; min-height: 100vh; width: 100%; }
+    .login-modal { display: flex; position: fixed; z-index: 1000; left: 0; top: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.35); justify-content: center; align-items: center; }
+    .login-box { background: #fff; padding: 2rem 1.5rem; border-radius: 16px; text-align: center; min-width: 260px; max-width: 90vw; box-shadow: 0 2px 12px rgba(59,130,246,0.08); }
+    .cards-container { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; margin-top: 2rem; margin-bottom: 2rem; }
+    .card { background: #fff; border-radius: 16px; box-shadow: 0 2px 12px rgba(59,130,246,0.08); padding: 2rem 1.5rem; min-width: 260px; max-width: 340px; margin-bottom: 1rem; display: flex; flex-direction: column; align-items: flex-start; }
+    .card h3 { color: #2563eb; margin: 0 0 0.5em 0; font-size: 1.15em; }
+    .card .estado { font-weight: bold; margin-bottom: 0.7em; }
+    .card details { margin-top: 1em; width: 100%; }
+    .card summary { cursor: pointer; color: #2563eb; font-weight: 500; font-size: 1em; }
+    .card ul { margin: 0.5em 0 0 1em; font-size: 0.97em; padding-left: 0; }
+    .card li { margin-bottom: 0.3em; }
+    .export-btn { background: #2563eb; color: #fff; border: none; border-radius: 8px; padding: 0.8em 2em; font-size: 1.1em; font-weight: 600; cursor: pointer; margin-bottom: 2em; box-shadow: 0 1px 4px rgba(0,0,0,0.07); transition: background 0.2s; }
+    .export-btn:hover { background: #1746a0; }
+    @media (max-width: 900px) { .sidebar { position: relative; width: 100vw; min-height: unset; flex-direction: row; align-items: center; justify-content: flex-start; padding: 1rem 0.5rem; box-shadow: none; } .sidebar h2 { margin-bottom: 0; margin-right: 2em; } .main-content { margin-left: 0; margin-top: 80px; } }
+    @media (max-width: 800px) { .cards-container { flex-direction: column; gap: 2rem; align-items: center; } .card { max-width: 98vw; } }
   </style>
 </head>
 <body>
-  <div id="loginModal" class="login-modal">
-    <form id="loginForm" class="login-box" autocomplete="off">
-      <h2>Acceso a Resultados</h2>
-      <label>
-        Contraseña:
-        <input type="password" id="passwordInput" required>
-      </label>
-      <button type="submit" style="margin-top:1em;">Ingresar</button>
-      <div id="loginError" style="color:#dc2626; margin-top:1em; display:none;">Contraseña incorrecta</div>
-    </form>
+  <nav class="sidebar">
+    <h2>Autonomy</h2>
+    <a href="index.html">Inicio</a>
+    <a href="evaluacion-form.html">Evaluación</a>
+    <a href="evaluados.html" class="active">Resultados</a>
+  </nav>
+  <div class="main-content">
+    <div id="loginModal" class="login-modal">
+      <form id="loginForm" class="login-box" autocomplete="off">
+        <h2>Acceso a Resultados</h2>
+        <label>
+          Contraseña:
+          <input type="password" id="passwordInput" required>
+        </label>
+        <button type="submit" style="margin-top:1em;">Ingresar</button>
+        <div id="loginError" style="color:#dc2626; margin-top:1em; display:none;">Contraseña incorrecta</div>
+      </form>
+    </div>
+    <header>
+      <h1 style="margin-top:2rem; color:#2563eb;">Resultados de Evaluación</h1>
+      <p style="text-align:center; color:#444; font-size:1.1em;">
+        Consulta los resultados por nombre y apellido. Haz clic en cada tarjeta para ver las respuestas.
+      </p>
+    </header>
+    <button id="exportExcelBtn" class="export-btn" style="display:none;">Exportar a Excel</button>
+    <div class="cards-container" id="evaluadosList"></div>
   </div>
-
-  <header>
-    <h1 style="margin-top:2rem; color:#2563eb;">Resultados de Evaluación</h1>
-    <p style="text-align:center; color:#444; font-size:1.1em;">
-      Consulta los resultados por nombre y apellido. Haz clic en cada tarjeta para ver las respuestas.
-    </p>
-  </header>
-  <button id="exportExcelBtn" class="export-btn" style="display:none;">Exportar a Excel</button>
-  <div class="cards-container" id="evaluadosList"></div>
-
   <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
   <script>
-    // Contraseña simple (puedes cambiarla)
-    const PASSWORD = "autonomy2024";
-
-    // Simulación de resultados (puedes reemplazar por localStorage o API)
-    // Ejemplo: [{nombre, apellido, fecha, score, total, percent, passed, respuestas:{q1:..., q2:...}}]
+    const PASSWORD = "8812";
     let evaluados = JSON.parse(localStorage.getItem('evaluados') || '[]');
-
-    // Acceso por contraseña
     document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const pass = document.getElementById('passwordInput').value;
@@ -150,7 +71,6 @@
         document.getElementById('loginError').style.display = 'block';
       }
     });
-
     function mostrarEvaluados() {
       const listDiv = document.getElementById('evaluadosList');
       if (!evaluados || evaluados.length === 0) {
@@ -176,7 +96,6 @@
         </div>
       `).join('');
     }
-
     document.getElementById('exportExcelBtn').onclick = function() {
       if (!evaluados || evaluados.length === 0) {
         alert('No hay evaluaciones para exportar.');
