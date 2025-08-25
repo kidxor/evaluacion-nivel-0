@@ -110,9 +110,9 @@
   <!-- Este archivo contiene la lista de preguntas y respuestas correctas para la evaluación -->
 
   <script>
-  // Este archivo solo debe contener JavaScript, no HTML ni etiquetas <script>.
-  // Elimina cualquier contenido HTML y deja solo la definición de preguntas y respuestas.
+  // Este archivo solo debe contener JavaScript, sin etiquetas HTML ni <script>.
 
+  // Preguntas de la evaluación
   window.preguntas = [
     {
       id: "q1",
@@ -324,6 +324,7 @@
     }
   ];
 
+  // Respuestas correctas
   window.correctas = {
     q1: ['a', 'b', 'd', 'e'],
     q2: 'b',
